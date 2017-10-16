@@ -31,7 +31,7 @@ int main(){
 		int twice=0;
 		
 		for(int i = 0;i<x.length();i++){
-			cout<<x[i]<<" "<<ans<<" "<<cnt<<endl;
+			if(cnt>10)break;
 			if(x[i]=='X'){
 				ans+=val(x[i]);
 				if(cnt<=10){
@@ -43,7 +43,6 @@ int main(){
 				twice=2;
 			}else if(x[i]=='/'){
 				ans+=val(x[i])-val(x[i-1]);
-				cout<<val(x[i])-val(x[i-1])<<endl;
 				if(cnt<=10)ans+=val(x[i+1]);
 				twice++;
 			}else{
@@ -51,7 +50,7 @@ int main(){
 				twice++;
 			}
 			if(twice==2)twice=0,cnt++;
-			else if(cnt>=10)twice=0,cnt++;
+			else if(cnt>10)twice=0,cnt++;
 		}
 		
 		cout<<ans<<endl;
