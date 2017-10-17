@@ -6,6 +6,10 @@
 
 using namespace std;
 
+typedef pair<int,int>ii;
+typedef pair<ii,ii>iiii;
+typedef pair<int,iiii>iiiii;
+
 struct dt{
 	int m,b,t;
 	int idx;
@@ -16,8 +20,6 @@ struct dt{
 		note=f;ty=g;
 	}
 };
-
-dt ar[100005];
 
 int quan[9]={0,60,120,180,240,300,360,420,480};
 
@@ -41,9 +43,6 @@ void cut(int &m, int &b, int&t){
 		t=quan[idx];
 	}
 }
-bool cmp(dt a,dt b){
-	return a.idx<b.idx;
-}
 
 int main(){
 	int n;
@@ -51,24 +50,27 @@ int main(){
 	while(cin>>n){
 		if(n==-1)break;
 		vector<dt>ans;
+		
 		for(int i = 0;i<n;i++){
 			int ty,note,m,b,t;
 			cin>>ty>>note>>m>>b>>t;
 			cut(m,b,t);
 			if(ty==1){
-				ar[note].m=m;
-				ar[note].b=b;
-				ar[note].t=t;
-				ar[note].idx=i;
-				ar[note].note=note;
-				ar[note].ty=1;
-			}else{
-				if(ar[note].m==m&&ar[note].b==b&&ar[note].t==t)continue;
-				ans.pb(ar[note]);
 				ans.pb(dt(m,b,t,i,note,ty));
+			}else{
+				bool dup=false;
+				for(int j = 0;j<ans.size();j++){
+					if(ans[j].ty==1&&ans[j].m==m&&ans[j].b==b&&ans[j].t==t&&ans[j].note==note){
+						ans.erase(ans.begin()+j);
+						dup=true;
+						break;
+					}
+				}
+				if(!dup){
+					ans.pb(dt(m,b,t,i,note,ty));	
+				}
 			}
 		}
-		sort(ans.begin(),ans.end(),cmp);
 		cout<<ans.size()<<endl;
 		for(int i = 0;i<ans.size();i++){
 			cout<<ans[i].ty<<" "<<ans[i].note<<" "<<ans[i].m<<" "<<ans[i].b<<" "<<ans[i].t<<endl;
